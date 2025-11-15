@@ -1,6 +1,5 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Picker } from "@react-native-picker/picker";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Alert,
@@ -141,6 +140,9 @@ export default function HomeScreen(): React.ReactElement {
   const [credits, setCredits] = useState<string>("");
   const [grade, setGrade] = useState<GradeLetter>(gradeOptions[0]);
   const [showCourseDropdown, setShowCourseDropdown] = useState<boolean>(false);
+  const [showSemesterDropdown, setShowSemesterDropdown] =
+    useState<boolean>(false);
+  const [showGradeDropdown, setShowGradeDropdown] = useState<boolean>(false);
 
   // Animation values
   const modalSlideAnim = useRef(new Animated.Value(0)).current;
@@ -297,21 +299,13 @@ export default function HomeScreen(): React.ReactElement {
 
       {/* Semester Selector */}
       <Text style={styles.label}>Select Semester</Text>
-      <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={semester}
-          onValueChange={(value) => {
-            setSemester(value);
-            setSelectedCourse(""); // Reset course when semester changes
-          }}
-          style={styles.picker}
-          mode="dropdown"
-        >
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
-            <Picker.Item label={`Semester ${sem}`} value={sem} key={sem} />
-          ))}
-        </Picker>
-      </View>
+      <TouchableOpacity
+        style={styles.dropdownButton}
+        onPress={() => setShowSemesterDropdown(true)}
+      >
+        <Text style={styles.dropdownButtonText}>Semester {semester}</Text>
+        <MaterialIcons name="arrow-drop-down" size={24} color="#333" />
+      </TouchableOpacity>
 
       {/* Course Selector */}
       <Text style={styles.label}>Select Course</Text>
@@ -370,6 +364,69 @@ export default function HomeScreen(): React.ReactElement {
         </Animated.View>
       </Modal>
 
+      {/* Semester Selection Modal */}
+      <Modal
+        visible={showSemesterDropdown}
+        animationType="fade"
+        transparent={true}
+        onRequestClose={() => setShowSemesterDropdown(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>Select Semester</Text>
+            <TouchableOpacity onPress={() => setShowSemesterDropdown(false)}>
+              <MaterialIcons name="close" size={28} color="#333" />
+            </TouchableOpacity>
+          </View>
+          <ScrollView style={styles.modalScrollView}>
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+              <TouchableOpacity
+                key={sem}
+                style={styles.modalItem}
+                onPress={() => {
+                  setSemester(sem);
+                  setSelectedCourse(""); // Reset course when semester changes
+                  setShowSemesterDropdown(false);
+                }}
+              >
+                <Text style={styles.modalItemText}>Semester {sem}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+      </Modal>
+
+      {/* Grade Selection Modal */}
+      <Modal
+        visible={showGradeDropdown}
+        animationType="fade"
+        transparent={true}
+        onRequestClose={() => setShowGradeDropdown(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>Select Grade</Text>
+            <TouchableOpacity onPress={() => setShowGradeDropdown(false)}>
+              <MaterialIcons name="close" size={28} color="#333" />
+            </TouchableOpacity>
+          </View>
+          <ScrollView style={styles.modalScrollView}>
+            {gradeOptions.map((option) => (
+              <TouchableOpacity
+                key={option}
+                style={styles.modalItem}
+                onPress={() => {
+                  setGrade(option);
+                  setShowGradeDropdown(false);
+                }}
+              >
+                <Text style={styles.modalItemText}>{option}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+      </Modal>
+
       {/* Credits Input (Auto-filled) */}
       <TextInput
         value={credits}
@@ -382,18 +439,13 @@ export default function HomeScreen(): React.ReactElement {
 
       {/* Grade Selector */}
       <Text style={styles.label}>Select Grade</Text>
-      <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={grade}
-          onValueChange={setGrade}
-          style={styles.picker}
-          mode="dropdown"
-        >
-          {gradeOptions.map((option) => (
-            <Picker.Item label={option} value={option} key={option} />
-          ))}
-        </Picker>
-      </View>
+      <TouchableOpacity
+        style={styles.dropdownButton}
+        onPress={() => setShowGradeDropdown(true)}
+      >
+        <Text style={styles.dropdownButtonText}>{grade}</Text>
+        <MaterialIcons name="arrow-drop-down" size={24} color="#333" />
+      </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.addButton}
@@ -496,6 +548,10 @@ const styles = StyleSheet.create({
   picker: {
     height: 50,
     width: "100%",
+  },
+  pickerText: {
+    color: "#222",
+    fontSize: 14,
   },
   addButton: {
     marginVertical: 12,
