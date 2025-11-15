@@ -1,50 +1,64 @@
-# Welcome to your Expo app 👋
+# GPA Calculator
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A minimal GPA calculator app built with Expo, React Native, and TypeScript. The project uses Expo Router for file‑based navigation and runs on Android, iOS, and the web.
 
-## Get started
+## Quick Start
 
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+1) Install dependencies
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2) Start the app
 
-## Learn more
+```bash
+npm start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+From the Expo CLI, you can open on:
+- Android emulator or a connected device
+- iOS simulator (on macOS)
+- Expo Go on your phone
+- Web (press `w`)
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Useful Scripts
 
-## Join the community
+- `npm start`: Launch Expo developer tools
+- `npm run android`: Run the native Android app
+- `npm run ios`: Run the native iOS app (macOS required)
+- `npm run web`: Start the web build
+- `npm run lint`: Lint the project with ESLint
+- `npm run reset-project`: Reset to a fresh starter (moves current app to `app-example/`)
 
-Join our community of developers creating universal apps.
+## Building with EAS (optional)
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This repo includes an `eas.json`. If you use Expo Application Services:
+
+```bash
+npx eas login
+npx eas build -p android    # Android build
+npx eas build -p ios        # iOS build (macOS + Apple account required)
+```
+
+Learn more: https://docs.expo.dev/build/introduction/
+
+## Project Structure
+
+- `app/`: Routes and screens (Expo Router)
+- `components/`: Reusable UI components
+- `hooks/`: Reusable hooks
+- `constants/`: Theme and app constants
+- `android/`: Native Android project
+
+You can start iterating by editing files in the `app/` directory.
+
+## Requirements
+
+- Node.js 18+ and npm
+- For Android development: Android Studio or device with USB debugging
+- For iOS development: Xcode on macOS
+
+## License
+
+This project is for educational/demo purposes. Add your preferred license if publishing.
